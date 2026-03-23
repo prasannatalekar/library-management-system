@@ -119,7 +119,7 @@ CREATE TABLE issue_books (
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/yourusername/library-management-system.git
+git clone https://github.com/prasannatalekar/library-management-system.git
 ```
 
 **2. Import the project into your IDE**
