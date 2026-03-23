@@ -9,15 +9,18 @@ public class DBConnection {
     private static Connection con = null;
 
     public static Connection getConnection() {
-        if (con == null) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection(URL, USER, PASSWORD);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        }
-        return con;
+        
+    	try {
+    		if (con == null || con.isClosed()) {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				con = DriverManager.getConnection(URL,USER,PASSWORD);
+				System.out.println("Database connected successfully!");
+			}
+    	} catch (Exception e) {
+			System.out.println("Connection Error : "+e.getMessage());
+			e.printStackTrace();
+		}
+    	return con;
     }
 
     public static void closeConnection() {

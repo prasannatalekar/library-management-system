@@ -1,5 +1,4 @@
 import java.sql.SQLException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -9,12 +8,10 @@ public class Main {
     public static int getIntInput() {
         while (true) {
             try {
-                int input = sc.nextInt();
-                sc.nextLine();
+                int input = Integer.parseInt(sc.nextLine());
                 return input;
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 System.out.println("Invalid input. Please enter a number.");
-                sc.nextLine();
             }
         }
     }
@@ -31,13 +28,13 @@ public class Main {
             choice = getIntInput();
 
             switch (choice) {
-                case 1 -> UserService.registerUser();
+                case 1 -> UserService.registerUser(sc);
                 case 2 -> {
-                    currentUser = UserService.login("user");
+                    currentUser = UserService.login("user",sc);
                     if (currentUser != null) userMenu();
                 }
                 case 3 -> {
-                    currentUser = UserService.login("admin");
+                    currentUser = UserService.login("admin",sc);
                     if (currentUser != null) adminMenu();
                 }
                 case 0 -> System.out.println("Exited");
@@ -59,14 +56,13 @@ public class Main {
             System.out.println("4. Return Book");
             System.out.println("0. Logout");
 
-            choice = sc.nextInt();
-            sc.nextLine();
-
+            choice = getIntInput();
+            
             switch (choice) {
                 case 1 -> LibraryService.viewBooks();
-                case 2 -> LibraryService.searchBook();
-                case 3 -> LibraryService.issueBook(currentUser);
-                case 4 -> LibraryService.returnBook(currentUser);
+                case 2 -> LibraryService.searchBook(sc);
+                case 3 -> LibraryService.issueBook(currentUser,sc);
+                case 4 -> LibraryService.returnBook(currentUser,sc);
                 case 0 -> System.out.println("Logging out...");
                 default -> System.out.println("Invalid choice, please try again.");
             }
@@ -83,21 +79,22 @@ public class Main {
             System.out.println("3. Add Book");
             System.out.println("4. Delete Book");
             System.out.println("5. View Users");
-            System.out.println("6. Delete user");
-            System.out.println("7. View Issued Books");
+            System.out.println("6. Block User");
+            System.out.println("7. Unblock User");
+            System.out.println("8. View Issued Books");
             System.out.println("0. Logout");
 
-            choice = sc.nextInt();
-            sc.nextLine();
+            choice = getIntInput();
 
             switch (choice) {
-                case 1 -> LibraryService.viewBooks();
-                case 2 -> LibraryService.searchBook();
-                case 3 -> AdminService.addBook();
-                case 4 -> AdminService.deleteBook();
+                case 1 -> AdminService.viewBooks();
+                case 2 -> LibraryService.searchBook(sc);
+                case 3 -> AdminService.addBook(sc);
+                case 4 -> AdminService.deleteBook(sc);
                 case 5 -> AdminService.viewUsers();
-                case 6 -> AdminService.deleteUser();
-                case 7 -> AdminService.viewIssuedBooks();
+                case 6 -> AdminService.blockUser(sc);
+                case 7 -> AdminService.unblockUser(sc);
+                case 8 -> AdminService.viewIssuedBooks();
                 case 0 -> System.out.println("Logging out...");
                 default -> System.out.println("Invalid choice, please try again.");
             }
