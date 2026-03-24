@@ -209,7 +209,7 @@ public class AdminService {
     }
     
     public static void unblockUser(Scanner sc) throws SQLException {
-    	System.out.println("Enter user ID unblock user : ");
+    	System.out.println("Enter user ID to unblock user : ");
     	int userId=Main.getIntInput();
     	
     	String unblockUserSql = "UPDATE users SET is_deleted=false WHERE id=? AND role='user' AND is_deleted=true";

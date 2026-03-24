@@ -13,7 +13,7 @@ public class UserService {
         System.out.println("Enter password: ");
         String password = sc.nextLine().trim();
 
-        String sql = "SELECT * FROM users WHERE username=? AND role=? AND is_deleted=false";  
+        String sql = "SELECT * FROM users WHERE username=? AND role=?";  
 
         try (PreparedStatement ps=con.prepareStatement(sql)) {
 			
@@ -23,6 +23,12 @@ public class UserService {
         	try (ResultSet rs=ps.executeQuery()) {
         		
         		if (rs.next()) {
+        			
+        			if(rs.getBoolean("is_deleted")) {
+            			System.out.println("Your account has been blocked. Please contact admin!");
+                        return null;
+            		}
+        			
 					String storedPassword=rs.getString("password");
 					
 					if(HashPassword.checkPassword(password, storedPassword)) {
